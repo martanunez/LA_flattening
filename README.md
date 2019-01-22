@@ -48,7 +48,7 @@ Activate the environment when needed using:
 ```
 source activate vmtk_env
 ```
-2. You can also build VMTK from source if you wish, for example, to use a specific VTK version. Instructions can be found [here.](http://www.vmtk.org/download/)
+You can also build VMTK from source if you wish, for example, to use a specific VTK version. Instructions can be found [here.](http://www.vmtk.org/download/)
 
 ## Instructions
 Clone the repository:
