@@ -32,19 +32,19 @@ The scripts in this repository were successfully run with:
   
 Other required packages are: NumPy, SciPy, Matplotlib, joblib, and python-tk.  
 
-The easiest way to install all the needed packages is installing the VMTK [conda](https://docs.conda.io/en/latest/) package (it inclues VMTK, VTK, NumPy, etc.). 
+The easiest way to install all the needed packages is installing the VMTK [conda](https://docs.conda.io/en/latest/) package (it includes VMTK, VTK, NumPy, etc.). 
 
-It is recommended to create an environment and activate it:
+It is recommended to create an environment where VMTK is going to be installed and activate it:
 
 ```
 conda create --name vmtk_env
 source activate vmtk_env
 ```
-Install vmtk:
+Then, install vmtk:
 ```
 conda install -c vmtk/label/dev itk vtk vmtk
 ```
-Activate the environment when needed with:
+Activate the environment when needed using:
 ```
 source activate vmtk_env
 ```
