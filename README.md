@@ -3,7 +3,7 @@ Author: Marta Nuñez-Garcia (marnugar@gmail.com)
 
 ## About
 Implementation of the Left Atrial (LA) Fast Regional Flattening (FRF) method described in:
-[*Fast quasi-conformal regional flattening of the left atrium*. Marta Nuñez-Garcia, Gabriel Bernardino, Francisco Alarcón, Gala Caixal, Lluís Mont, Oscar Camara, and Constantine Butakoff. arXiv preprint arXiv:1811.06896, (2018).](https://arxiv.org/pdf/1811.06896.pdf). Please cite this reference when using this code.
+[*Fast quasi-conformal regional flattening of the left atrium*. Marta Nuñez-Garcia, Gabriel Bernardino, Francisco Alarcón, Gala Caixal, Lluís Mont, Oscar Camara, and Constantine Butakoff. arXiv preprint arXiv:1811.06896, (2018)](https://arxiv.org/pdf/1811.06896.pdf). Please cite this reference when using this code.
 
 Example:
 
