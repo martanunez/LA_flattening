@@ -33,3 +33,12 @@ The scripts in this repository were successfully run with:
     - [VTK](https://vtk.org/) 8.1.0
   
 Other required packages are: NumPy, SciPy, Matplotlib, joblib, and python-tk.  
+
+## Usage example
+python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
+
+python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
+
+python 3_divide_LA.py data/mesh_clipped_c.vtk
+
+python 4_flat_atria.py data/mesh_clipped_c.vtk
