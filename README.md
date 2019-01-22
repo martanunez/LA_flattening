@@ -24,7 +24,18 @@ git clone https://github.com/martanunez/LA_flattening
 cd LA_flattening
 ```
 
-## Usage example
+## Usage
+```
+python 1_mesh_standardisation.py input_mesh dist_pv dist_LAA maxslope clspacing skippointsfactor highslope bumpcriterion pvends vis save 
+
+python 2_close_holes_project_info.py clipped_mesh clipped_mitral_mesh clipped_closed_mesh
+
+python 3_divide_LA.py clipped_closed_mesh
+
+python 4_flat_atria.py clipped_closed_mesh
+```
+
+#### Usage example
 ```
 python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
 
@@ -34,7 +45,6 @@ python 3_divide_LA.py data/mesh_clipped_c.vtk
 
 python 4_flat_atria.py data/mesh_clipped_c.vtk
 ```
-
 
 ## Code and Dependencies
 Python. It requires [VTK](https://vtk.org/) and [VMTK](http://www.vmtk.org/). 
