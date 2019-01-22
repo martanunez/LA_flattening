@@ -3,9 +3,7 @@ Author: Marta Nuñez-Garcia (marnugar@gmail.com)
 
 ## About
 Implementation of the Left Atrial (LA) Fast Regional Flattening (FRF) method described in:
-[*Fast quasi-conformal regional flattening of the left atrium*. Marta Nuñez-Garcia, Gabriel Bernardino, Francisco Alarcón, Gala Caixal, Lluís Mont, Oscar Camara, and Constantine Butakoff. arXiv preprint arXiv:1811.06896, (2018).](https://arxiv.org/pdf/1811.06896.pdf)
-
-Please cite this reference when using this code.
+[*Fast quasi-conformal regional flattening of the left atrium*. Marta Nuñez-Garcia, Gabriel Bernardino, Francisco Alarcón, Gala Caixal, Lluís Mont, Oscar Camara, and Constantine Butakoff. arXiv preprint arXiv:1811.06896, (2018).](https://arxiv.org/pdf/1811.06896.pdf). Please cite this reference when using this code.
 
 Example:
 
@@ -34,11 +32,17 @@ The scripts in this repository were successfully run with:
   
 Other required packages are: NumPy, SciPy, Matplotlib, joblib, and python-tk.  
 
+## Instructions
+Clone the repository:
+> git clone https://github.com/martanunez/LA_flattening
+
+> cd LA_flattening
+
 ## Usage example
-python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
+> python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
 
-python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
+> python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
 
-python 3_divide_LA.py data/mesh_clipped_c.vtk
+> python 3_divide_LA.py data/mesh_clipped_c.vtk
 
-python 4_flat_atria.py data/mesh_clipped_c.vtk
+> python 4_flat_atria.py data/mesh_clipped_c.vtk
