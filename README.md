@@ -11,10 +11,10 @@ Example:
 
 ## Pipeline
 The pipeline is split in 4 parts. You can skip the first ones depending on your input data.
-- **1_mesh_standardisation:** standardise LA mesh, i.e. clip pulmonary veins (PVs), left atrial appendage (LAA), and mitral valve (MV). Launch GUI and ask the user to select 5 seeds close to the ending points of the 4 PVs and LAA. It returns a clipped mesh and auxiliary files containing info about seeds, clipping planes, etc. Script adapted from [run_standardization](https://github.com/catactg/SUM) by Catalina Tobon Gomez. 
-- **2_close_holes_project_info:** Close holes corresponding to PVs and LAA. Mark filled holes with a scalar array. Additionally, transfer all scalar arrays in the input mesh to the output (closed) mesh. Hole filling done with [Butakoff's implementation](https://github.com/cbutakoff/tools/tree/master/FillSurfaceHoles) of the method published in P. Liepa "Filling Holes in Meshes", 2003. Hole filling can also be done manually with [reMESH.](http://remesh.sourceforge.net/)
-- **3_divide_LA:** Parcellate mesh creating appropriate paths to divide the LA in the 5 pieces considered in our regional flattening. Launch GUI and ask the user to select the 8 required seeds.
-- **4_flat_atria:** Fast quasi-conformal LA regional flattening. Given LA mesh with clipped & filled holes (PVs, LAA) and only 1 hole corresponding to MV, it returns a flat (2D) version of input mesh. Implementation of conformal flattening considering 6 boundaries (4 PVs + LAA + MV) and additional regional constraints (division lines) specified in the previous step.
+- **1_mesh_standardisation:** standardises LA mesh, i.e. clip pulmonary veins (PVs), left atrial appendage (LAA), and mitral valve (MV). Launches GUI and asks the user to select 5 seeds close to the ending points of the 4 PVs and LAA. It returns a clipped mesh and auxiliary files containing info about seeds, clipping planes, etc. This script is adapted from [run_standardization](https://github.com/catactg/SUM) by Catalina Tobon Gomez. 
+- **2_close_holes_project_info:** Closes holes corresponding to clipped PVs and LAA. Marks filled holes with a scalar array. Additionally, transfers all scalar arrays in the input mesh to the output (closed) mesh. Hole filling is done with [Butakoff's implementation](https://github.com/cbutakoff/tools/tree/master/FillSurfaceHoles) of the method published in P. Liepa "Filling Holes in Meshes", 2003. Hole filling can also be done manually with [reMESH.](http://remesh.sourceforge.net/)
+- **3_divide_LA:** Parcellates mesh creating appropriate paths to divide the LA in the 5 pieces considered in our regional flattening. Launch GUI and ask the user to select the 8 required seeds.
+- **4_flat_atria:** Quasi-conformal LA regional flattening. Given a LA mesh with clipped & filled holes (PVs, LAA) and only 1 hole corresponding to the MV, it returns a flat (2D) version of the input mesh. Implementation of a conformal flattening considering 6 boundaries (4 PVs + LAA + MV) and the additional regional constraints (division lines) obtained in the previous step.
 
 ## Code
 Python.
@@ -32,17 +32,39 @@ The scripts in this repository were successfully run with:
   
 Other required packages are: NumPy, SciPy, Matplotlib, joblib, and python-tk.  
 
+The easiest way to install all the needed packages is installing the VMTK [conda](https://docs.conda.io/en/latest/) package (it inclues VMTK, VTK, NumPy, etc.). 
+
+It is recommended to create an environment and activate it:
+
+```
+conda create --name vmtk_env
+source activate vmtk_env
+```
+Install vmtk:
+```
+conda install -c vmtk/label/dev itk vtk vmtk
+```
+Activate the environment when needed with:
+```
+source activate vmtk_env
+```
+
+
 ## Instructions
 Clone the repository:
-> git clone https://github.com/martanunez/LA_flattening
+```
+git clone https://github.com/martanunez/LA_flattening
 
-> cd LA_flattening
+cd LA_flattening
+```
 
 ## Usage example
-> python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
+```
+python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
 
-> python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
+python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
 
-> python 3_divide_LA.py data/mesh_clipped_c.vtk
+python 3_divide_LA.py data/mesh_clipped_c.vtk
 
-> python 4_flat_atria.py data/mesh_clipped_c.vtk
+python 4_flat_atria.py data/mesh_clipped_c.vtk
+```
