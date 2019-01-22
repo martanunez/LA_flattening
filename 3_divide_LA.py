@@ -29,7 +29,7 @@ nseeds = 9
 labels = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 if not os.path.exists(outputfile):
-    print('Select exactly 9 seeds in this order: \n 1. RSPV\n 2. RIPV\n 3. LIPV \n 4. LSPV \n 5. LAA and, \n 6. 4 seeds close to the MV contour (starting in the end of the line connecting LSPV with MV)')
+    print('Select exactly 9 seeds in this order: \n 1. RSPV\n 2. RIPV\n 3. LIPV \n 4. LSPV \n 5. LAA and, \n 6. 4 seeds close to the MV contour (starting in the end of the line connecting RSPV with MV)')
     seeds = seed_interactor(surface)
     if not seeds.GetNumberOfIds() == nseeds:
         print('You should select exactly', nseeds, ' seeds. Try again!')
