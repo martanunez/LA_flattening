@@ -1,8 +1,8 @@
-# Left atrial (LA) flattening
+# Left atrial flattening
 Author: Marta Nuñez-Garcia (marnugar@gmail.com)
 
 ## About
-Implementation of the LA Fast Regional Flattening (FRF) method described in:
+Implementation of the Left Atrial (LA) Fast Regional Flattening (FRF) method described in:
 [*Fast quasi-conformal regional flattening of the left atrium*. Marta Nuñez-Garcia, Gabriel Bernardino, Francisco Alarcón, Gala Caixal, Lluís Mont, Oscar Camara, and Constantine Butakoff. arXiv preprint arXiv:1811.06896, (2018).](https://arxiv.org/pdf/1811.06896.pdf)
 
 Please cite this reference when using this code.
@@ -21,7 +21,7 @@ The pipeline is split in 4 parts. You can skip the first ones depending on your 
 ## Code
 Python.
 
-### Dependencies
+#### Dependencies
 The scripts in this repository were successfully run with:
 1. Ubuntu 16.04
     - [Python](https://www.python.org/) 2.7.12
@@ -32,4 +32,4 @@ The scripts in this repository were successfully run with:
     - [VMTK](http://www.vmtk.org/) 1.4
     - [VTK](https://vtk.org/) 8.1.0
   
-Other required packages are: NumPy, SciPy, joblib, matplotlib, and python-tk.  
+Other required packages are: NumPy, SciPy, Matplotlib, joblib, and python-tk.  
