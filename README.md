@@ -1,2 +1,2 @@
-# LA_flattening
+# Left atrial (LA) flattening
 Implementation of quasi-conformal regional flattening of the left atrium
