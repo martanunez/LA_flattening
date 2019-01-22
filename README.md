@@ -10,7 +10,7 @@ Example:
 ![Example image](https://github.com/martanunez/LA_flattening/blob/master/example_im.png)
 
 ## Code
-[Python](https://www.python.org/)) scripts depending (basically) on [VTK](https://vtk.org/) and [VMTK](http://www.vmtk.org/). 
+[Python](https://www.python.org/) scripts depending (basically) on [VTK](https://vtk.org/) and [VMTK](http://www.vmtk.org/). 
 
 ## Pipeline
 The pipeline is split in 4 parts. You can skip the first ones depending on your input data.
