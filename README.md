@@ -9,8 +9,11 @@ Example:
 
 ![Example image](https://github.com/martanunez/LA_flattening/blob/master/example_im.png)
 
+## Code
+[Python](https://www.python.org/)) scripts depending (basically) on [VTK](https://vtk.org/) and [VMTK](http://www.vmtk.org/). 
+
 ## Pipeline
-The pipeline is split in 4 parts. You can skip the first ones depending on your input data. These scripts ([Python](https://www.python.org/)) require [VTK](https://vtk.org/) and [VMTK](http://www.vmtk.org/). 
+The pipeline is split in 4 parts. You can skip the first ones depending on your input data.
 
 
 - **1_mesh_standardisation:** standardises LA mesh, i.e. clip pulmonary veins (PVs), left atrial appendage (LAA), and mitral valve (MV). Launches GUI and asks the user to select 5 seeds close to the ending points of the 4 PVs and LAA. It returns a clipped mesh and auxiliary files containing info about seeds, clipping planes, etc. This script is adapted from [run_standardization](https://github.com/catactg/SUM) by Catalina Tobon Gomez. 
