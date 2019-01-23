@@ -1,6 +1,6 @@
 # Parcellate mesh creating appropriate paths to divide the LA in the 5 pieces considered in our regional flattening.
-# Launch GUI and ask the user to select 8 seeds in this order:
-# 4 in RSPV, RIPV, LIPV, LSPV. Approx in the center of the filled holes.
+# Launch GUI and ask the user to select 9 seeds in this order:
+# 5 in RSPV, RIPV, LIPV, LSPV, and LAA. Approx in the center of the filled holes.
 # 4 in the MV in this order: going down from RSPV, RIPV, LIPV, and LAA.
 
 # Input: mesh with clipped & filled holes corresponding to PVs and LAA; and clipped MV.
