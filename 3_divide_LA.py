@@ -1,35 +1,39 @@
 # Parcellate mesh creating appropriate paths to divide the LA in the 5 pieces considered in our regional flattening.
-# Launch GUI and ask the user to select 9 seeds in this order:
+# Launch GUI and ask the user to select 8 seeds in this order:
 # 5 in RSPV, RIPV, LIPV, LSPV, and LAA. Approx in the center of the filled holes.
 # 4 in the MV in this order: going down from RSPV, RIPV, LIPV, and LAA.
 
 # Input: mesh with clipped & filled holes corresponding to PVs and LAA; and clipped MV.
 # Output: dividing paths saved as separated polydatas.
-# Usage: python 3_divide_LA.py data/mesh_clipped_c.vtk
+# Usage: python 3_divide_LA.py --meshfile data/mesh_clipped_c.vtk
 
 from clip_aux_functions import *
 import sys
 import os
 import numpy as np
+import argparse
 
-meshfile = sys.argv[1]
-fileroot = os.path.dirname(meshfile)
-filename = os.path.basename(meshfile)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--meshfile', type=str, metavar='PATH', help='path to input mesh')
+args = parser.parse_args()
+
+fileroot = os.path.dirname(args.meshfile)
+filename = os.path.basename(args.meshfile)
 filenameroot = os.path.splitext(filename)[0]
 
-if not os.path.exists(meshfile):
-    print('ERROR: Input file not found')
-    exit()
+if not os.path.exists(args.meshfile):
+    sys.exit('ERROR: Input file not found')
 
 outputfile = os.path.join(fileroot, filenameroot + '_seeds.vtk')   # selected by user
 outputfile2 = os.path.join(fileroot, filenameroot + '_seeds_for_flat.vtk')  # modified seeds, used for flattening
 
-surface = readvtk(meshfile)
+surface = readvtk(args.meshfile)
 nseeds = 9
 labels = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 if not os.path.exists(outputfile):
-    print('Select exactly 9 seeds in this order: \n 1. RSPV\n 2. RIPV\n 3. LIPV \n 4. LSPV \n 5. LAA and, \n 6. 4 seeds close to the MV contour (starting in the end of the line connecting RSPV with MV)')
+    print('Select exactly 9 seeds in this order: \n 1. RSPV\n 2. RIPV\n 3. LIPV \n 4. LSPV \n 5. LAA and, \n 6. 4 seeds close to the MV contour (starting in the point that should be in the top position in the disk)')
     seeds = seed_interactor(surface)
     if not seeds.GetNumberOfIds() == nseeds:
         print('You should select exactly', nseeds, ' seeds. Try again!')

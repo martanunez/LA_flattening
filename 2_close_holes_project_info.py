@@ -4,32 +4,35 @@
 
 # Input: mesh with PVs and LAA clipped at their ostia + same mesh without MV
 # Output: mesh with holes corresponding to PVs and LAA filled and marked with scalar array. No MV.
-# Usage: python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
+# Usage: python 2_close_holes_project_info.py --meshfile_open data/mesh_crinkle_clipped.vtk --meshfile_open_no_mitral  data/mesh_clipped_mitral.vtk --meshfile_closed data/mesh_clipped_c.vtk
 
 from aux_functions import *
 import sys
 import os
+import argparse
 
-filename_open = sys.argv[1]
-filename_no_mitral = sys.argv[2]
-filename_closed = sys.argv[3]
+parser = argparse.ArgumentParser()
+parser.add_argument('--meshfile_open', type=str, metavar='PATH', help='path to input mesh with clipped PVs and LAA')
+parser.add_argument('--meshfile_open_no_mitral', type=str, metavar='PATH', help='path to input mesh with additional MV clip')
+parser.add_argument('--meshfile_closed', type=str, metavar='PATH', help='path to output mesh, i.e. with filled holes')
+args = parser.parse_args()
 
-fileroot = os.path.dirname(filename_open)
-filename = os.path.basename(filename_open)
+fileroot = os.path.dirname(args.meshfile_open)
+filename = os.path.basename(args.meshfile_open)
 filenameroot = os.path.splitext(filename)[0]
 
-if not os.path.exists(filename_open):
-    print('ERROR: Input file 1 (LA after PV, LAA clipping) not found')
-if not os.path.exists(filename_no_mitral):
-    print('ERROR: Input file 2 (LA after PV, LAA, and MV clipping) not found')
-if os.path.exists(filename_closed):
+if not os.path.exists(args.meshfile_open):
+    sys.exit('ERROR: Input file 1 (LA after PV, LAA clipping) not found')
+if not os.path.exists(args.meshfile_open_no_mitral):
+    sys.exit('ERROR: Input file 2 (LA after PV, LAA, and MV clipping) not found')
+if os.path.exists(args.meshfile_closed):
     print('WARNING: Closed mesh already exists. Delete it and run again if you want to update it.')
-else: # Fill holes
-    os.system('./FillSurfaceHoles -i ' + filename_open + ' -o ' + filename_closed)
+else:  # Fill holes
+    os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
 
-m_open = readvtk(filename_open)
-m_no_mitral = readvtk(filename_no_mitral)
-m_closed = readvtk(filename_closed)
+m_open = readvtk(args.meshfile_open)
+m_no_mitral = readvtk(args.meshfile_open_no_mitral)
+m_closed = readvtk(args.meshfile_closed)
 
 print('Projecting information... ')
 transfer_all_scalar_arrays(m_open, m_closed)
@@ -68,6 +71,6 @@ transfer_array(m_open, m_closed, 'mv', 'mv')
 transfer_array(m_open, m_closed, 'autolabels', 'autolabels')
 m_final = pointthreshold(m_closed, 'mv', 0, 0)
 m_final.GetPointData().RemoveArray('mv')
-writevtk(m_final, filename_closed, 'binary')
+writevtk(m_final, args.meshfile_closed, 'binary')
 
 print('PV and LAA holes have been closed and marked with scalar array <hole> = 1')

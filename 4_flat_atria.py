@@ -2,7 +2,7 @@
 
 # Input: LA mesh with clipped & filled holes (PVs, LAA) and only 1 hole corresponding to MV.
 # Output: Flat (2D) version of input mesh.
-# Usage: python 4_flat_atria.py data/mesh_clipped_c.vtk
+# Usage: python 4_flat_atria.py --meshfile data/mesh_clipped_c.vtk
 
 # Conformal flattening considering 6 boundaries (4 PVs + LAA + MV) and additional regional constraints
 # Regional constraints fitted using segments: s1,s2,s3,s4,s5,s6,s7, s8a and s8b
@@ -14,23 +14,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os
+import argparse
 
-filename = sys.argv[1]
-save_conts = False           # save contours?
-save_final_paths = False     # save modified paths?
+parser = argparse.ArgumentParser()
+parser.add_argument('--meshfile', type=str, metavar='PATH', help='path to input mesh')
+parser.add_argument('--save_conts', type=bool, default=False, help='set to true to save mesh contours/contraints')
+parser.add_argument('--save_final_paths', type=bool, default=False, help='set to true to save modified dividing paths')
+args = parser.parse_args()
 
-if os.path.isfile(filename)==False:
+if os.path.isfile(args.meshfile)==False:
     sys.exit('ERROR: input file does not exist')
 else:
-    mesh = readvtk(filename)
+    mesh = readvtk(args.meshfile)
 
-seeds_filename = filename[0:len(filename)-4] + '_seeds_for_flat.vtk'
+seeds_filename = args.meshfile[0:len(args.meshfile)-4] + '_seeds_for_flat.vtk'
 if os.path.isfile(seeds_filename)==False:
     sys.exit('ERROR: input file containing seeds for flat does not exist. Create it using: 3_divide_LA.py')
 else:
     m_seeds = readvtk(seeds_filename)
-to_be_flat_filename = filename[0:len(filename)-4] + '_to_be_flat.vtk'
-m_out = filename[0:len(filename) - 4] + '_flat.vtk'
+to_be_flat_filename = args.meshfile[0:len(args.meshfile)-4] + '_to_be_flat.vtk'
+m_out = args.meshfile[0:len(args.meshfile) - 4] + '_flat.vtk'
 
 ##################   Template creation. Define position and radius of PV holes, and radius disk. Adapt to input mesh.    ##################
 rdisk = 0.5
@@ -94,13 +97,13 @@ v1r_x, v1r_y, v1d_x, v1d_y, v1l_x, v1l_y, v2u_x, v2u_y, v2r_x, v2r_y, v2l_x, v2l
 m_open = pointthreshold(mesh, 'hole', 0, 0)
 
 # contours
-cont_rspv, cont_ripv, cont_lipv, cont_lspv, cont_mv, cont_laa = extract_LA_contours(m_open, filename, save_conts)
+cont_rspv, cont_ripv, cont_lipv, cont_lspv, cont_mv, cont_laa = extract_LA_contours(m_open, args.meshfile, args.save_conts)
 locator, locator_open, locator_rspv, locator_ripv, locator_lipv, locator_lspv, locator_laa = build_locators(mesh, m_open, cont_rspv, cont_ripv, cont_lipv, cont_lspv, cont_laa)
 mv_cont_ids = get_mv_contour_ids(cont_mv, locator_open)
 
 # paths (created with 3_divide_LA.py)
 npaths = 7
-path1, path2, path3, path4, path5, path6, path7, path_laa1, path_laa2, path_laa3 = read_paths(filename, 7)
+path1, path2, path3, path4, path5, path6, path7, path_laa1, path_laa2, path_laa3 = read_paths(args.meshfile, 7)
 
 # Obtain ids corresponding to the extremes of the segments
 v1r, v1d, v1l, v2u, v2r, v2l, v3u, v3r, v3l, v4r, v4u, v4d, vlaad, vlaau, vlaar, id_v5, id_v6, id_v7, id_v8 = identify_segments_extremes(path1, path2, path3, path4, path5, path6, path7, path_laa1, path_laa2, path_laa3,
@@ -126,16 +129,16 @@ path7_clipped_prop = find_create_path(m_open, int(id_v7), int(v3l_prop))
 path_laa1_clipped_prop = find_create_path(m_open, int(vlaad), int(v4u_prop))
 path_laa2_clipped_prop = find_create_path(m_open, int(id_v8), int(vlaau))
 
-if save_final_paths == True:
-    writevtk(path1_clipped_prop, filename[0:len(filename)-4] + 'path1_prop.vtk')
-    writevtk(path2_clipped_prop, filename[0:len(filename)-4] + 'path2_prop.vtk')
-    writevtk(path3_clipped_prop, filename[0:len(filename)-4] + 'path3_prop.vtk')
-    writevtk(path4_clipped_prop, filename[0:len(filename)-4] + 'path4_prop.vtk')
-    writevtk(path5_clipped_prop, filename[0:len(filename)-4] + 'path5_prop.vtk')
-    writevtk(path6_clipped_prop, filename[0:len(filename)-4] + 'path6_prop.vtk')
-    writevtk(path7_clipped_prop, filename[0:len(filename)-4] + 'path7_prop.vtk')
-    writevtk(path_laa1_clipped_prop, filename[0:len(filename)-4] + 'path_laa1_prop.vtk')
-    writevtk(path_laa2_clipped_prop, filename[0:len(filename)-4] + 'path_laa2_prop.vtk')
+if args.save_final_paths == True:
+    writevtk(path1_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path1_prop.vtk')
+    writevtk(path2_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path2_prop.vtk')
+    writevtk(path3_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path3_prop.vtk')
+    writevtk(path4_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path4_prop.vtk')
+    writevtk(path5_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path5_prop.vtk')
+    writevtk(path6_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path6_prop.vtk')
+    writevtk(path7_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path7_prop.vtk')
+    writevtk(path_laa1_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path_laa1_prop.vtk')
+    writevtk(path_laa2_clipped_prop, args.meshfile[0:len(args.meshfile)-4] + 'path_laa2_prop.vtk')
 
 ##################    Define segment constraint points (s1, s2, s3,..., s12)    ##################
 s1 = get_segment_ids_in_to_be_flat_mesh(path1_clipped_prop, locator_open, np.concatenate([ripv_s2_prop, ripv_s3_prop]), np.concatenate([rspv_s1_prop, rspv_s2_prop]))
