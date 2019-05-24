@@ -32,24 +32,79 @@ cd LA_flattening
 
 ## Usage
 ```
-python 1_mesh_standardisation.py input_mesh dist_pv dist_LAA maxslope clspacing skippointsfactor highslope bumpcriterion pvends vis save 
+1_mesh_standardisation.py [-h] [--meshfile PATH] [--pv_dist PV_DIST]
+                                 [--laa_dist LAA_DIST] [--maxslope MAXSLOPE]
+                                 [--clspacing CLSPACING]
+                                 [--skippointsfactor SKIPPOINTSFACTOR]
+                                 [--highslope HIGHSLOPE]
+                                 [--bumpcriterion BUMPCRITERION]
+                                 [--pvends PVENDS] [--vis VIS] [--save SAVE]
 
-python 2_close_holes_project_info.py clipped_mesh clipped_mitral_mesh clipped_closed_mesh
+optional arguments:
+  -h, --help            show this help message and exit
+  --meshfile PATH       path to input mesh
+  --pv_dist PV_DIST     PV clipping distance (mm)
+  --laa_dist LAA_DIST   LAA clipping distance (mm)
+  --maxslope MAXSLOPE   Anything above this is ostium
+  --clspacing CLSPACING
+                        Resample the centerline with this spacing
+  --skippointsfactor SKIPPOINTSFACTOR
+                        Percentage of points to ignore at beginning of
+                        centerline
+  --highslope HIGHSLOPE
+                        Above this slope we start counting
+  --bumpcriterion BUMPCRITERION
+                        Ostium if slope higher than highslope and above bump
+                        criterion
+  --pvends PVENDS       Enforce the centerline to reach the end boundary of
+                        the surface.
+  --vis VIS             Set to 1 to visualise clipping results overlaid with
+                        original mesh
+  --save SAVE           Set to 0 to remove intermediate results (centerlines,
+                        clippoints, etc.)
+____________________________________________________________________________
 
-python 3_divide_LA.py clipped_closed_mesh
+2_close_holes_project_info.py [-h] [--meshfile_open PATH]
+                                     [--meshfile_open_no_mitral PATH]
+                                     [--meshfile_closed PATH]
 
-python 4_flat_atria.py clipped_closed_mesh
+optional arguments:
+  -h, --help            show this help message and exit
+  --meshfile_open PATH  path to input mesh with clipped PVs and LAA
+  --meshfile_open_no_mitral PATH
+                        path to input mesh with additional MV clip
+  --meshfile_closed PATH
+                        path to output mesh, i.e. with filled holes
+____________________________________________________________________________
+
+usage: 3_divide_LA.py [-h] [--meshfile PATH]
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --meshfile PATH  path to input mesh
+___________________________________________________________________________
+
+usage: 4_flat_atria.py [-h] [--meshfile PATH] [--save_conts SAVE_CONTS]
+                       [--save_final_paths SAVE_FINAL_PATHS]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --meshfile PATH       path to input mesh
+  --save_conts SAVE_CONTS
+                        set to true to save mesh contours/contraints
+  --save_final_paths SAVE_FINAL_PATHS
+                        set to true to save modified dividing paths
 ```
 
 ## Usage example
 ```
-python 1_mesh_standardisation.py data/mesh.vtk 3 3 5 0.4 0.1 1.2 0.05 1 1 0
+python 1_mesh_standardisation.py --meshfile data/mesh.vtk --pv_dist 5 --laa_dist 5 --vis 1
 
-python 2_close_holes_project_info.py data/mesh_crinkle_clipped.vtk data/mesh_clipped_mitral.vtk data/mesh_clipped_c.vtk
+python 2_close_holes_project_info.py --meshfile_open data/mesh_crinkle_clipped.vtk --meshfile_open_no_mitral  data/mesh_clipped_mitral.vtk --meshfile_closed data/mesh_clipped_c.vtk
 
-python 3_divide_LA.py data/mesh_clipped_c.vtk
+python 3_divide_LA.py --meshfile data/mesh_clipped_c.vtk
 
-python 4_flat_atria.py data/mesh_clipped_c.vtk
+python 4_flat_atria.py --meshfile data/mesh_clipped_c.vtk
 ```
 
 ## Dependencies
