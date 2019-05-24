@@ -49,19 +49,14 @@ optional arguments:
   --clspacing CLSPACING
                         Resample the centerline with this spacing
   --skippointsfactor SKIPPOINTSFACTOR
-                        Percentage of points to ignore at beginning of
-                        centerline
+                        Percentage of points to ignore at beginning of centerline
   --highslope HIGHSLOPE
                         Above this slope we start counting
   --bumpcriterion BUMPCRITERION
-                        Ostium if slope higher than highslope and above bump
-                        criterion
-  --pvends PVENDS       Enforce the centerline to reach the end boundary of
-                        the surface.
-  --vis VIS             Set to 1 to visualise clipping results overlaid with
-                        original mesh
-  --save SAVE           Set to 0 to remove intermediate results (centerlines,
-                        clippoints, etc.)
+                        Ostium if slope higher than highslope and above bump criterion
+  --pvends PVENDS       Enforce the centerline to reach the end boundary of the surface.
+  --vis VIS             Set to 1 to visualise clipping results overlaid with original mesh
+  --save SAVE           Set to 0 to remove intermediate results (centerlines, clippoints, etc.)
 ____________________________________________________________________________
 
 2_close_holes_project_info.py [-h] [--meshfile_open PATH]
