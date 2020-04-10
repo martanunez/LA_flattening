@@ -120,7 +120,7 @@ To install VMTK follow the instructions [here](http://www.vmtk.org/download/). T
 
 ```
 conda create --name vmtk_env
-source activate vmtk_env
+conda activate vmtk_env
 ```
 Then, install vmtk:
 ```
