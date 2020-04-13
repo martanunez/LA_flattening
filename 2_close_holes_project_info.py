@@ -10,6 +10,7 @@ from aux_functions import *
 import sys
 import os
 import argparse
+from sys import platform
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--meshfile_open', type=str, metavar='PATH', help='path to input mesh with clipped PVs and LAA')
@@ -28,7 +29,13 @@ if not os.path.exists(args.meshfile_open_no_mitral):
 if os.path.exists(args.meshfile_closed):
     print('WARNING: Closed mesh already exists. Delete it and run again if you want to update it.')
 else:  # Fill holes
-    os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
+    #os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
+    if platform == "linux" or platform == "linux2":
+        os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
+    elif platform == "win32":
+        os.system('FillSurfaceHoles_Windows\FillSurfaceHoles.exe -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')   # default smooth cotangent (and edglen) fails when using this binary
+    else:
+        sys.exit('Unknown operating system. Holes cannot be filled automatically. Fill holes manually and save file as ', args.meshfile_closed, '. Then run again this script to proyect scalar arrays from initial mesh if necessary.')
 
 m_open = readvtk(args.meshfile_open)
 m_no_mitral = readvtk(args.meshfile_open_no_mitral)
