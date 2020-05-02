@@ -33,7 +33,7 @@ else:  # Fill holes
     if platform == "linux" or platform == "linux2":
         os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
     elif platform == "win32":
-        os.system('FillSurfaceHoles_Windows\FillSurfaceHoles.exe -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')   # default smooth cotangent (and edglen) fails when using this binary
+        os.system('FillSurfaceHoles_Windows\FillSurfaceHoles.exe -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')   # default smooth cotangent (and edglen) fails when using the Windows binary
     else:
         sys.exit('Unknown operating system. Holes cannot be filled automatically. Fill holes manually and save file as ', args.meshfile_closed, '. Then run again this script to proyect scalar arrays from initial mesh if necessary.')
 
