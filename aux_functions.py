@@ -903,7 +903,7 @@ def get_rspv_segments_ids(cont_rspv, locator_open, v1l, v1d, v1r, propn_rspv_s1,
         aux = np.zeros(rspv_ids.size)
         for i in range(rspv_ids.size):
             aux[rspv_ids.size - 1 - i] = rspv_ids[i]
-        # mantain the v1l as the first one (after the flip is the last one)
+        # maintain the v1l as the first one (after the flip is the last one)
         flipped = np.append(aux[aux.size - 1], aux[0:aux.size - 1])
         rspv_ids = flipped.astype(int)
     rspv_s1 = rspv_ids[0:int(np.where(rspv_ids == v1d)[0])]
@@ -1429,7 +1429,7 @@ def ExtractVTKTriFaces(mesh):
 
 
 def ComputeLaplacian(vertex, faces):
-    """Calculates the laplacian of a mesh
+    """Calculates the Laplacian of a mesh
     vertex 3xN numpy.array: vertices
     faces 3xM numpy.array: faces"""
     n = vertex.shape[1]
@@ -1452,7 +1452,7 @@ def ComputeLaplacian(vertex, faces):
         W = W + sparse.coo_matrix((1 / np.tan(ang), (faces[i2, :], faces[i3, :])), shape=(n, n))
         W = W + sparse.coo_matrix((1 / np.tan(ang), (faces[i3, :], faces[i2, :])), shape=(n, n))
 
-    # compute laplacian
+    # compute Laplacian
     d = W.sum(axis=0)
     D = sparse.dia_matrix((d, 0), shape=(n, n))
     L = D - W
