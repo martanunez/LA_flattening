@@ -643,7 +643,7 @@ def get_coords(c):
     return c[0,0], c[1,0], c[0,1], c[1,1], c[0,2], c[1,2], c[0,3], c[1,3], c[0,4], c[1,4], c[0,5], c[1,5], c[0,6], c[1,6], c[0,7], c[1,7], c[0,8], c[1,8], c[0,9], c[1,9], c[0,10], c[1,10], c[0,11], c[1,11], c[0,12], c[1,12], c[0,13], c[1,13], c[0,14], c[1,14], c[0,15], c[1,15], c[0,16], c[1,16], c[0,17], c[1,17]
 
 def extract_LA_contours(m_open, filename, save=False):
-    """Given LA with clipped PVs, LAA and MV identify and classify all 5 contours using 'autolables' array.
+    """Given LA with clipped PVs, LAA and MV identify and classify all 5 contours using 'autolabels' array.
     Save contours if save=True"""
     edges = extractboundaryedge(m_open)
     conn = get_connected_edges(edges)
