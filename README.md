@@ -40,9 +40,11 @@ cd LA_flattening
                                  [--bumpcriterion BUMPCRITERION]
                                  [--pvends PVENDS] [--vis VIS] [--save SAVE]
 
-optional arguments:
-  -h, --help            show this help message and exit
+Arguments:
   --meshfile PATH       path to input mesh
+
+Optional arguments:
+  -h, --help            show this help message and exit
   --pv_dist PV_DIST     PV clipping distance (mm)
   --laa_dist LAA_DIST   LAA clipping distance (mm)
   --maxslope MAXSLOPE   Anything above this is ostium
@@ -63,7 +65,7 @@ ____________________________________________________________________________
                                      [--meshfile_open_no_mitral PATH]
                                      [--meshfile_closed PATH]
 
-optional arguments:
+Arguments:
   -h, --help            show this help message and exit
   --meshfile_open PATH  path to input mesh with clipped PVs and LAA
   --meshfile_open_no_mitral PATH
@@ -74,7 +76,7 @@ ____________________________________________________________________________
 
 usage: 3_divide_LA.py [-h] [--meshfile PATH]
 
-optional arguments:
+Arguments:
   -h, --help       show this help message and exit
   --meshfile PATH  path to input mesh
 ___________________________________________________________________________
@@ -82,9 +84,11 @@ ___________________________________________________________________________
 usage: 4_flat_atria.py [-h] [--meshfile PATH] [--save_conts SAVE_CONTS]
                        [--save_final_paths SAVE_FINAL_PATHS]
 
-optional arguments:
-  -h, --help            show this help message and exit
+Arguments:
   --meshfile PATH       path to input mesh
+  
+Optional arguments:
+  -h, --help            show this help message and exit
   --save_conts SAVE_CONTS
                         set to true to save mesh contours/contraints
   --save_final_paths SAVE_FINAL_PATHS
