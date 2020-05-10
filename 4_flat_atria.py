@@ -264,8 +264,50 @@ plt.show()
 m_flat = flat_w_constraints(m_open, seq_contour_ids.astype(int), seq_constraints_ids.astype(int), x0_bound, y0_bound, x0_const, y0_const)
 m_final = flat(m_flat, seq_contour_ids.astype(int), x0_bound, y0_bound)   # Refine boundary
 
+# Add region (R1, R2, R3, R4, R5) label to the _to_be_flat mesh and the final flat mesh
+# summarize and write all dividing lines in a txt file
+line_textfile = args.meshfile[0:len(args.meshfile)-4] + '_div_lines.txt'
+nlines = 9
+
+locator = vtk.vtkPointLocator()
+locator.SetDataSet(m_open)
+locator.BuildLocator()
+f = open(line_textfile, 'w')
+
+for i in range(1, nlines+1):
+    if i == 1:
+        path = path1_clipped_prop
+    elif i == 2:
+        path = path2_clipped_prop
+    elif i == 3:
+        path = path3_clipped_prop
+    elif i == 4:
+        path = path4_clipped_prop
+    elif i == 5:
+        path = path5_clipped_prop
+    elif i == 6:
+        path = path6_clipped_prop
+    elif i == 7:
+        path = path7_clipped_prop
+    elif i == 8:
+        path = path_laa1_clipped_prop
+    elif i == 9:
+        path = path_laa2_clipped_prop
+    ids = np.arange(0, path.GetNumberOfPoints())
+    for p in range(path.GetNumberOfPoints()):
+        id_p = locator.FindClosestPoint(path.GetPoint(ids[p]))
+        f.write(str(id_p))
+        f.write(' ')
+    f.write('\n')
+f.close()
+
+# Read all lines and divide/cut mesh
+m_aux = set_piece_label(m_open, line_textfile, m_seeds)
+writevtk(m_aux, to_be_flat_filename)
+
 print('\nProjecting information...')
 transfer_all_scalar_arrays_by_point_id(m_open, m_final)
+m_final.GetCellData().AddArray(m_aux.GetCellData().GetArray('region'))
 # remove ad hoc scalar arrays
 m_final.GetPointData().RemoveArray('pv')
 m_final.GetPointData().RemoveArray('autolabels')

@@ -1561,3 +1561,149 @@ def flat_w_constraints(m, boundary_ids, constraints_ids, x0_b, y0_b, x0_c, y0_c)
     pd.SetPolys(m.GetPolys())
     pd.Modified()
     return pd
+
+# From cutter
+def find_triangles(p1_id, p2_id, tri):
+    tt = (tri - p1_id) * (tri - p2_id)
+    return np.where((tt == 0).sum(axis=1) == 2)[0]
+
+def find_triangle_point_loc(p1_id, p2_id, tri):
+    p1_loc = np.where((tri - p1_id) == 0)
+    p2_loc = np.where((tri - p2_id) == 0)
+    return [p1_loc[0][0], p2_loc[0][0]]
+
+def find_celledge_neighbors(tri_id, tri):
+    (p1_id, p2_id, p3_id) = tri[tri_id, :]
+    t1 = find_triangles(p1_id, p2_id, tri)
+    t2 = find_triangles(p1_id, p3_id, tri)
+    t3 = find_triangles(p2_id, p3_id, tri)
+    t = (set(t1).union(set(t2)).union(set(t3))) - {tri_id}
+    return list(t)
+
+def triangle_common_edge(tri1, tri2):
+    common_pts = set(tri1).intersection(set(tri2))
+    if len(common_pts) < 2:
+        return {}
+    else:
+        return common_pts
+
+def triangles_on_one_line(t1, t2, tri, line):
+    edge = triangle_common_edge(tri[t1, :], tri[t2, :])
+    on_line = False
+    for i in range(line.shape[0] - 1):
+        segm = {line[i], line[i + 1]}
+        if len(segm - edge) == 0:
+            on_line = True
+            break
+    return on_line
+
+def triangles_on_any_line(t1, t2, tri, lines):
+    on_line = False
+    for line in lines:
+        on_line = triangles_on_one_line(t1, t2, tri, line)
+        if on_line:
+            break
+    return on_line
+
+def set_piece_label(m, line_textfile, m_seeds):
+
+    lines = []
+
+    with open(line_textfile, 'r') as f:
+        for line in f:
+            l = line.replace('\n', '').strip()
+            lines.append(np.array([int(x) for x in l.split(' ')]))
+
+    # extract connectivity
+    tri = np.zeros([m.GetNumberOfCells(), 3], dtype=np.int64)
+
+    for i in range(tri.shape[0]):
+        ids = m.GetCell(i).GetPointIds()
+        for j in range(3):
+            tri[i, j] = ids.GetId(j)
+
+    trilabel = np.zeros(m.GetNumberOfCells(), dtype=np.int64)
+    region_id = 0
+    for i in range(m.GetNumberOfCells()):
+        if trilabel[i] == 0:
+            tri_stack = [i]  # triangles to process
+            region_id = region_id + 1
+
+            while tri_stack:  # while not empty
+                tri_id = tri_stack.pop()
+
+                if (trilabel[tri_id] == 0):  # if not labeled yet
+                    trilabel[tri_id] = region_id
+                    neighb = find_celledge_neighbors(tri_id, tri)
+
+                    for j in range(len(neighb)):
+                        if trilabel[neighb[j]] == 0:
+                            # see if the triangles tri_id and neighb[j] are on the different sides of the line
+                            # i.e. if they share any pair of points of the line
+                            if not triangles_on_any_line(tri_id, neighb[j], tri, lines):
+                                tri_stack.append(neighb[j])
+
+    trilabel_vtkarray = numpy_to_vtk(trilabel)
+    trilabel_vtkarray.SetName('region')
+    m.GetCellData().AddArray(trilabel_vtkarray)
+
+    # Set correct label (R1, R2 etc, as defined in the paper)
+    standard_regions = np.zeros(m.GetNumberOfCells())
+    p_v1 = m_seeds.GetPoint(0)
+    p_v2 = m_seeds.GetPoint(1)
+    p_v3 = m_seeds.GetPoint(2)
+    p_v4 = m_seeds.GetPoint(3)
+    p_v5 = m_seeds.GetPoint(5)
+    p_v6 = m_seeds.GetPoint(6)
+    p_v7 = m_seeds.GetPoint(7)
+    p_v8 = m_seeds.GetPoint(8)
+    p_v9 = m_seeds.GetPoint(9)
+
+    dists = np.zeros(9)
+
+    for i in range(1, 6):
+        piece = cellthreshold(m, 'region', i, i)
+
+        # find closest point IN piece to the reference points (seeds, Vi)
+        locator = vtk.vtkPointLocator()
+        locator.SetDataSet(piece)
+        locator.BuildLocator()
+        id_v1 = locator.FindClosestPoint(p_v1)
+        id_v2 = locator.FindClosestPoint(p_v2)
+        id_v3 = locator.FindClosestPoint(p_v3)
+        id_v4 = locator.FindClosestPoint(p_v4)
+        id_v5 = locator.FindClosestPoint(p_v5)  # in order of acquisition
+        id_v6 = locator.FindClosestPoint(p_v6)
+        id_v7 = locator.FindClosestPoint(p_v7)
+        id_v8 = locator.FindClosestPoint(p_v8)
+        id_v9 = locator.FindClosestPoint(p_v9)
+
+        dists[0] = euclideandistance(piece.GetPoint(id_v1), p_v1)
+        dists[1] = euclideandistance(piece.GetPoint(id_v2), p_v2)
+        dists[2] = euclideandistance(piece.GetPoint(id_v3), p_v3)
+        dists[3] = euclideandistance(piece.GetPoint(id_v4), p_v4)
+        dists[4] = euclideandistance(piece.GetPoint(id_v5), p_v5)
+        dists[5] = euclideandistance(piece.GetPoint(id_v6), p_v6)
+        dists[6] = euclideandistance(piece.GetPoint(id_v7), p_v7)
+        dists[7] = euclideandistance(piece.GetPoint(id_v8), p_v8)
+        dists[8] = euclideandistance(piece.GetPoint(id_v9), p_v9)
+
+        # compute distance to seeds, depending on their position I can find which piece is
+        closest_seeds = np.sort(np.argpartition(dists, 4)[0:4])
+        if np.array_equal(closest_seeds, np.sort(np.array([0, 1, 2, 3]))):   # R5
+            standard_regions[np.where(trilabel == i)] = 5
+        if np.array_equal(closest_seeds, np.sort(np.array([0, 3, 4, 7]))):   # R4
+            standard_regions[np.where(trilabel == i)] = 4
+        if np.array_equal(closest_seeds, np.sort(np.array([1, 2, 5, 6]))):   # R2
+            standard_regions[np.where(trilabel == i)] = 2
+        if np.array_equal(closest_seeds, np.sort(np.array([0, 1, 4, 5]))):   # R1
+            standard_regions[np.where(trilabel == i)] = 1
+        if np.array_equal(closest_seeds, np.sort(np.array([2, 3, 6, 7]))):   # R3
+            standard_regions[np.where(trilabel == i)] = 3
+
+    m.GetCellData().RemoveArray('region')   # remove previous 'region' array. Not standardised numbers
+    cellarray = numpy_to_vtk(standard_regions)
+    cellarray.SetName('region')
+    m.GetCellData().AddArray(cellarray)
+
+    return m
