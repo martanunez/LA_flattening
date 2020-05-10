@@ -1,11 +1,23 @@
-# Parcellate mesh creating appropriate paths to divide the LA in the 5 pieces considered in our regional flattening.
-# Launch GUI and ask the user to select 8 seeds in this order:
-# 5 in RSPV, RIPV, LIPV, LSPV, and LAA. Approx in the center of the filled holes.
-# 4 in the MV in this order: going down from RSPV, RIPV, LIPV, and LAA.
+"""
+    Copyright (c) - Marta Nunez Garcia
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+    Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+    any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details. You should have received a copy of the GNU General Public License along with this
+    program. If not, see <http://www.gnu.org/licenses/>.
+"""
 
-# Input: mesh with clipped & filled holes corresponding to PVs and LAA; and clipped MV.
-# Output: dividing paths saved as separated polydatas.
-# Usage: python 3_divide_LA.py --meshfile data/mesh_clipped_c.vtk
+""" 
+    Parcellate mesh creating appropriate paths to divide the LA in the 5 pieces considered in our regional flattening.
+    Launch GUI and ask the user to select 8 seeds in this order:
+    5 in RSPV, RIPV, LIPV, LSPV, and LAA. Approx in the center of the filled holes.
+    4 in the MV in this order: going down from RSPV, RIPV, LIPV, and LAA.
+
+    Input: mesh with clipped & filled holes corresponding to PVs and LAA; and clipped MV.
+    Output: dividing paths saved as separated polydatas.
+    Usage: python 3_divide_LA.py --meshfile data/mesh_clipped_c.vtk
+"""
 
 from clip_aux_functions import *
 import sys
