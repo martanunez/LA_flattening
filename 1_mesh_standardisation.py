@@ -1,9 +1,20 @@
-# Standardise mesh: clip pulmonary veins (PVs), left atrial appendage (LAA), and mitral valve (MV)
-# Launch GUI and ask the user to select 5 seeds close to the ending points of: LSPV, LIPV, RIPV, RSPV & LAA (IN THIS ORDER)
+"""
+    Copyright (c) - Marta Nunez Garcia
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+    Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+    any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details. You should have received a copy of the GNU General Public License along with this
+    program. If not, see <http://www.gnu.org/licenses/>.
+"""
+"""
+    Standardise mesh: clip pulmonary veins (PVs), left atrial appendage (LAA), and mitral valve (MV)
+    Launch GUI and ask the user to select 5 seeds close to the ending points of: LSPV, LIPV, RIPV, RSPV & LAA (IN THIS ORDER)
 
-# Input: mesh and several parameters related to clipping
-# Output: clipped mesh and auxiliary files containing info about seeds, clipping planes, etc.
-# Example usage: python 1_mesh_standardisation.py --meshfile data/mesh.vtk --pv_dist 5 --laa_dist 5 --vis 1
+    Input: mesh and several parameters related to clipping
+    Output: clipped mesh and auxiliary files containing info about seeds, clipping planes, etc.
+    Example usage: python 1_mesh_standardisation.py --meshfile data/mesh.vtk --pv_dist 5 --laa_dist 5 --vis 1 
+"""
 
 from clip_aux_functions import *
 import os
