@@ -1,13 +1,25 @@
-# Implementation of left atrial (LA) flattening in "Fast quasi-conformal regional flattening of the left atrium", Nunez-Garcia, Marta, et al., 2018, arXiv preprint arXiv:1811.06896
+"""
+    Copyright (c) - Marta Nunez Garcia
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+    Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+    any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details. You should have received a copy of the GNU General Public License along with this
+    program. If not, see <http://www.gnu.org/licenses/>.
+"""
 
-# Input: LA mesh with clipped & filled holes (PVs, LAA) and only 1 hole corresponding to MV.
-# Output: Flat (2D) version of input mesh.
-# Usage: python 4_flat_atria.py --meshfile data/mesh_clipped_c.vtk
+"""
+    Implementation of left atrial (LA) flattening in "Fast quasi-conformal regional flattening of the left atrium", Nunez-Garcia, Marta, et al., 2018, arXiv preprint arXiv:1811.06896
 
-# Conformal flattening considering 6 boundaries (4 PVs + LAA + MV) and additional regional constraints
-# Regional constraints fitted using segments: s1,s2,s3,s4,s5,s6,s7, s8a and s8b
-# Boundaries fitted using segments: s9, s10, s11, s12, rspv_s{1,2,3}, ripv_s{1,2,3}, lipv_s{1,2,3}, lspv_s{1,2,3}, laa_s{1,2}
-# Constraints (division lines) are modified to enforce proportional distribution of points in the holes.
+    Input: LA mesh with clipped & filled holes (PVs, LAA) and only 1 hole corresponding to MV.
+    Output: Flat (2D) version of input mesh.
+    Usage: python 4_flat_atria.py --meshfile data/mesh_clipped_c.vtk
+
+    Conformal flattening considering 6 boundaries (4 PVs + LAA + MV) and additional regional constraints
+    Regional constraints fitted using segments: s1,s2,s3,s4,s5,s6,s7, s8a and s8b
+    Boundaries fitted using segments: s9, s10, s11, s12, rspv_s{1,2,3}, ripv_s{1,2,3}, lipv_s{1,2,3}, lspv_s{1,2,3}, laa_s{1,2}
+    Constraints (division lines) are modified to enforce proportional distribution of points in the holes.
+"""
 
 from aux_functions import *
 import numpy as np
