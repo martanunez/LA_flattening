@@ -1,10 +1,22 @@
-# Close holes corresponding to PVs and LAA. Mark filled holes with a scalar array. Additionally, transfer all scalar arrays from input mesh to output (closed) mesh
-# Hole filling done with implementation from https://github.com/cbutakoff/tools/tree/master/FillSurfaceHoles  Related publication: P. Liepa "Filling Holes in Meshes", 2003.
-# Hole filling can also be done manually with reMESH (http://remesh.sourceforge.net/)
+"""
+    Copyright (c) - Marta Nunez Garcia
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+    Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
+    any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details. You should have received a copy of the GNU General Public License along with this
+    program. If not, see <http://www.gnu.org/licenses/>.
+"""
 
-# Input: mesh with PVs and LAA clipped at their ostia + same mesh without MV
-# Output: mesh with holes corresponding to PVs and LAA filled and marked with scalar array. No MV.
-# Usage: python 2_close_holes_project_info.py --meshfile_open data/mesh_crinkle_clipped.vtk --meshfile_open_no_mitral  data/mesh_clipped_mitral.vtk --meshfile_closed data/mesh_clipped_c.vtk
+"""
+    Close holes corresponding to PVs and LAA. Mark filled holes with a scalar array. Additionally, transfer all scalar arrays from input mesh to output (closed) mesh
+    Hole filling done with implementation from https://github.com/cbutakoff/tools/tree/master/FillSurfaceHoles  Related publication: P. Liepa "Filling Holes in Meshes", 2003.
+    Hole filling can also be done manually with reMESH (http://remesh.sourceforge.net/)
+
+    Input: mesh with PVs and LAA clipped at their ostia + same mesh without MV
+    Output: mesh with holes corresponding to PVs and LAA filled and marked with scalar array. No MV.
+    Usage: python 2_close_holes_project_info.py --meshfile_open data/mesh_crinkle_clipped.vtk --meshfile_open_no_mitral  data/mesh_clipped_mitral.vtk --meshfile_closed data/mesh_clipped_c.vtk
+"""
 
 from aux_functions import *
 import sys
