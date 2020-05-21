@@ -1,3 +1,4 @@
+Run:
 
 python 1_mesh_standardisation.py --meshfile data_fig1/mesh.vtk --pv_dist 3 --laa_dist 3 --vis 1 --save 1
 
@@ -7,3 +8,58 @@ python 3_divide_LA.py --meshfile data_fig1/mesh_clipped_c.vtk
 
 python 4_flat_atria.py --meshfile data_fig1/mesh_clipped_c.vtk --save_conts True --save_final_paths True
 
+
+-----------------------------------------------------------------------------------------------
+
+Figure 1 in the paper was created with Paraview. All labels were manually added as Sources/Text.
+
+Display:
+Part 1:
+	Top:
+		- data_fig1/mesh.vtk (display scalars using default Paraview's colormap) 
+	Center:  
+		- data_fig1/mesh.vtk (Solid Color, Opacity 50%) 
+		- data_fig1/mesh_clipseeds.vtp (Glyph: Glyph Type = Sphere, No orientation array, No scale array, Scale Factor 4, Glyph Mode = All Points, Color = green)
+		- data_fig1/mesh_clraw21.vtp (black)
+		- data_fig1/mesh_clraw22.vtp (black)
+		- data_fig1/mesh_clraw23.vtp (black)
+		- data_fig1/mesh_clraw24.vtp (black)
+		- data_fig1/mesh_clraw25.vtp (black)
+
+	Bottom: 
+		- data_fig1/mesh_clipped_mitral.vtk (scalars) 
+
+Part 2: 
+	Left: 4 different views of:
+		- data_fig1/mesh_clipped_c.vtk (Solid Color)
+		- data_fig1/mesh_clipped_c_seeds.vtk (Glyph: Glyph Type = Sphere, No orientation array, No scale array, Scale Factor 3, Glyph Mode = All Points, Color = green)
+		- data_fig1/mesh_clipped_cpath1.vtk (black)
+		- data_fig1/mesh_clipped_cpath2.vtk (black)
+		- data_fig1/mesh_clipped_cpath3.vtk (black)
+		- data_fig1/mesh_clipped_cpath4.vtk (black)
+		- data_fig1/mesh_clipped_cpath5.vtk (black)
+		- data_fig1/mesh_clipped_cpath6.vtk (black)
+		- data_fig1/mesh_clipped_cpath7.vtk (black)
+		- data_fig1/mesh_clipped_cpath_laa1.vtk (black)
+		- data_fig1/mesh_clipped_cpath_laa2.vtk (black)
+	Right: 4 different views of:
+		- data_fig1/mesh_clipped_c_to_be_flat.vtk (display 'region' cell array with a blue palette).
+		- data_fig1/mesh_clipped_cpath1.vtk (black)
+		- data_fig1/mesh_clipped_cpath2.vtk (black)
+		- data_fig1/mesh_clipped_cpath3.vtk (black)
+		- data_fig1/mesh_clipped_cpath4.vtk (black)
+		- data_fig1/mesh_clipped_cpath5.vtk (black)
+		- data_fig1/mesh_clipped_cpath6.vtk (black)
+		- data_fig1/mesh_clipped_cpath7.vtk (black)
+		- data_fig1/mesh_clipped_cpath_laa1.vtk (black)
+		- data_fig1/mesh_clipped_cpath_laa2.vtk (black)
+Part 3:
+	Top: 
+		- mesh_clipped_c_flat.vtk (display 'region' cell array with a blue palette).
+		- 2Dtemplate_lines.vtk (yellow)
+		- 2Dtemplate_contours.vtk (red)
+		
+	Bottom:
+		- mesh_clipped_c_flat.vtk (display 'scalars', default Paraview colormap).
+		- 2Dtemplate_lines.vtk (black)
+		- 2Dtemplate_contours.vtk (black)
