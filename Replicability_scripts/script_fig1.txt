@@ -1,0 +1,8 @@
+
+python 1_mesh_standardisation.py --meshfile data_fig1_paper/mesh.vtk --pv_dist 3 --laa_dist 3 --vis 1 --save 1
+
+python 2_close_holes_project_info.py --meshfile_open data_fig1_paper/mesh_crinkle_clipped.vtk --meshfile_open_no_mitral  data_fig1_paper/mesh_clipped_mitral.vtk --meshfile_closed data_fig1_paper/mesh_clipped_c.vtk
+
+python 3_divide_LA.py --meshfile data_fig1_paper/mesh_clipped_c.vtk
+
+python 4_flat_atria.py --meshfile data_fig1_paper/mesh_clipped_c.vtk

@@ -1,0 +1,15 @@
+conda create --name py36_flattening_env python=3.6
+
+conda activate py36_flattening_env
+
+conda install -c vmtk vtk itk vmtk
+
+conda install -c anaconda scipy
+
+conda install -c anaconda xlsxwriter
+
+conda install -c conda-forge matplotlib
+
+git clone https://github.com/martanunez/LA_flattening
+
+cd LA_flattening
