@@ -136,6 +136,19 @@ source activate vmtk_env
 ```-->
 You can also build VMTK from source if you wish, for example, to use a specific VTK version. Instructions can be found [here.](http://www.vmtk.org/download/)
 
+## Important note
+You may need to slightly modify vmtkcenterlines.py from the VMTK package if you encounter the following error when running 1_mesh_standardisation.py:
+
+```
+     for i in range(len(self.SourcePoints)/3):
+TypeError: 'float' object cannot be interpreted as an integer
+```
+
+Find vmtkcenterlines.py file and edit as follows:
+
+Line 128: change *for i in range(len(self.SourcePoints)/3):* by *for i in range(len(self.SourcePoints)* ***//*** *3):*
+Line 133: change *for i in range(len(self.TargetPoints)/3):* by *for i in range(len(self.TargetPoints)* ***//*** *3):* 
+
 
 ## License
 The code in this repository is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
