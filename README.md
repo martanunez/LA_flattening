@@ -146,8 +146,9 @@ TypeError: 'float' object cannot be interpreted as an integer
 
 Find vmtkcenterlines.py file and edit as follows:
 
-Line 128: change *for i in range(len(self.SourcePoints)/3):* by *for i in range(len(self.SourcePoints)* ***//*** *3):*
-Line 133: change *for i in range(len(self.TargetPoints)/3):* by *for i in range(len(self.TargetPoints)* ***//*** *3):* 
+Line 128: change ***for i in range(len(self.SourcePoints)/3):*** by ***for i in range(len(self.SourcePoints)//3):***
+
+Line 133: change ***for i in range(len(self.TargetPoints)/3):*** by ***for i in range(len(self.TargetPoints)//3):*** 
 
 
 ## License
