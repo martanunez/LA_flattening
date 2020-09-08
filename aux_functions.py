@@ -247,8 +247,8 @@ def linesource(p1, p2):
 def append(polydata1, polydata2):
     """Define new polydata appending polydata1 and polydata2"""
     appender = vtk.vtkAppendPolyData()
-    appender.AddInput(polydata1)
-    appender.AddInput(polydata2)
+    appender.AddInputData(polydata1)
+    appender.AddInputData(polydata2)
     appender.Update()
     return appender.GetOutput()
 
