@@ -1695,10 +1695,7 @@ def set_piece_label(m, line_textfile, m_seeds):
         # closest_seeds = np.sort(np.argpartition(dists, 4)[0:5])
         closest_seeds = np.argsort(dists)[0:2]    # use only 2 seeds, the ones with distance = 0 (in the MV) and if there are not distances = 0 -> it is R%
         min_distances = dists[closest_seeds]
-        print('Piece ', i)
-        print('Distances ', dists)
-        print('Closest seeds', closest_seeds)
-
+        
         if np.sum(min_distances) == 0:
             if np.array_equal(closest_seeds, np.array([5, 6])):    # R1
                 standard_regions[np.where(trilabel == i)] = 1
