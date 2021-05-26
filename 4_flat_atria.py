@@ -83,7 +83,7 @@ pv_centers[0, 3] = px_ref
 pv_centers[1, 3] = py_ref + left_carina_length
 # LAA
 laa_hole_center_x = px_ref - laa_disp_x
-laa_hole_center_y = py_ref + left_carina_length + left_carina_length * sep_lspv_laa  # si lipv esta en (-.25, -.10)
+laa_hole_center_y = py_ref + left_carina_length + left_carina_length * sep_lspv_laa  
 
 xhole_center = pv_centers[0, :]
 yhole_center = pv_centers[1, :]
