@@ -1649,17 +1649,18 @@ def set_piece_label(m, line_textfile, m_seeds):
 
     # Set correct label (R1, R2 etc, as defined in the paper)
     standard_regions = np.zeros(m.GetNumberOfCells())
-    p_v1 = m_seeds.GetPoint(0)
-    p_v2 = m_seeds.GetPoint(1)
-    p_v3 = m_seeds.GetPoint(2)
-    p_v4 = m_seeds.GetPoint(3)
-    p_v5 = m_seeds.GetPoint(5)
-    p_v6 = m_seeds.GetPoint(6)
-    p_v7 = m_seeds.GetPoint(7)
-    p_v8 = m_seeds.GetPoint(8)
-    p_v9 = m_seeds.GetPoint(9)
+    p0 = m_seeds.GetPoint(0)
+    p1 = m_seeds.GetPoint(1)
+    p2 = m_seeds.GetPoint(2)
+    p3 = m_seeds.GetPoint(3)
+    p4 = m_seeds.GetPoint(4)
+    p5 = m_seeds.GetPoint(5)
+    p6 = m_seeds.GetPoint(6)
+    p7 = m_seeds.GetPoint(7)
+    p8 = m_seeds.GetPoint(8)
+    p9 = m_seeds.GetPoint(9)
 
-    dists = np.zeros(9)
+    dists = np.zeros(10)
 
     for i in range(1, 6):
         piece = cellthreshold(m, 'region', i, i)
@@ -1668,42 +1669,49 @@ def set_piece_label(m, line_textfile, m_seeds):
         locator = vtk.vtkPointLocator()
         locator.SetDataSet(piece)
         locator.BuildLocator()
-        id_v1 = locator.FindClosestPoint(p_v1)
-        id_v2 = locator.FindClosestPoint(p_v2)
-        id_v3 = locator.FindClosestPoint(p_v3)
-        id_v4 = locator.FindClosestPoint(p_v4)
-        id_v5 = locator.FindClosestPoint(p_v5)  # in order of acquisition
-        id_v6 = locator.FindClosestPoint(p_v6)
-        id_v7 = locator.FindClosestPoint(p_v7)
-        id_v8 = locator.FindClosestPoint(p_v8)
-        id_v9 = locator.FindClosestPoint(p_v9)
+        id_v0 = locator.FindClosestPoint(p0)
+        id_v1 = locator.FindClosestPoint(p1)
+        id_v2 = locator.FindClosestPoint(p2)
+        id_v3 = locator.FindClosestPoint(p3)
+        id_v4 = locator.FindClosestPoint(p4)  # in order of acquisition
+        id_v5 = locator.FindClosestPoint(p5)
+        id_v6 = locator.FindClosestPoint(p6)
+        id_v7 = locator.FindClosestPoint(p7)
+        id_v8 = locator.FindClosestPoint(p8)
+        id_v9 = locator.FindClosestPoint(p9)
 
-        dists[0] = euclideandistance(piece.GetPoint(id_v1), p_v1)
-        dists[1] = euclideandistance(piece.GetPoint(id_v2), p_v2)
-        dists[2] = euclideandistance(piece.GetPoint(id_v3), p_v3)
-        dists[3] = euclideandistance(piece.GetPoint(id_v4), p_v4)
-        dists[4] = euclideandistance(piece.GetPoint(id_v5), p_v5)
-        dists[5] = euclideandistance(piece.GetPoint(id_v6), p_v6)
-        dists[6] = euclideandistance(piece.GetPoint(id_v7), p_v7)
-        dists[7] = euclideandistance(piece.GetPoint(id_v8), p_v8)
-        dists[8] = euclideandistance(piece.GetPoint(id_v9), p_v9)
+        dists[0] = euclideandistance(piece.GetPoint(id_v0), p0)
+        dists[1] = euclideandistance(piece.GetPoint(id_v1), p1)
+        dists[2] = euclideandistance(piece.GetPoint(id_v2), p2)
+        dists[3] = euclideandistance(piece.GetPoint(id_v3), p3)
+        dists[4] = euclideandistance(piece.GetPoint(id_v4), p4)
+        dists[5] = euclideandistance(piece.GetPoint(id_v5), p5)
+        dists[6] = euclideandistance(piece.GetPoint(id_v6), p6)
+        dists[7] = euclideandistance(piece.GetPoint(id_v7), p7)
+        dists[8] = euclideandistance(piece.GetPoint(id_v8), p8)
+        dists[9] = euclideandistance(piece.GetPoint(id_v9), p9)
 
         # compute distance to seeds, depending on their position I can find which piece is
-        closest_seeds = np.sort(np.argpartition(dists, 4)[0:4])
-        if np.array_equal(closest_seeds, np.sort(np.array([0, 1, 2, 3]))):   # R5
+        # closest_seeds = np.sort(np.argpartition(dists, 4)[0:5])
+        closest_seeds = np.argsort(dists)[0:2]    # use only 2 seeds, the ones with distance = 0 (in the MV) and if there are not distances = 0 -> it is R%
+        min_distances = dists[closest_seeds]
+        print('Piece ', i)
+        print('Distances ', dists)
+        print('Closest seeds', closest_seeds)
+
+        if np.sum(min_distances) == 0:
+            if np.array_equal(closest_seeds, np.array([5, 6])):    # R1
+                standard_regions[np.where(trilabel == i)] = 1
+            if np.array_equal(closest_seeds, np.array([6, 7])):    # R2
+                standard_regions[np.where(trilabel == i)] = 2
+            if np.array_equal(closest_seeds, np.array([7, 8])):    # R3
+                standard_regions[np.where(trilabel == i)] = 3
+            if np.array_equal(closest_seeds, np.array([5, 8])):    # R4
+                standard_regions[np.where(trilabel == i)] = 4
+        else:
             standard_regions[np.where(trilabel == i)] = 5
-        if np.array_equal(closest_seeds, np.sort(np.array([0, 3, 4, 7]))):   # R4
-            standard_regions[np.where(trilabel == i)] = 4
-        if np.array_equal(closest_seeds, np.sort(np.array([1, 2, 5, 6]))):   # R2
-            standard_regions[np.where(trilabel == i)] = 2
-        if np.array_equal(closest_seeds, np.sort(np.array([0, 1, 4, 5]))):   # R1
-            standard_regions[np.where(trilabel == i)] = 1
-        if np.array_equal(closest_seeds, np.sort(np.array([2, 3, 6, 7]))):   # R3
-            standard_regions[np.where(trilabel == i)] = 3
 
-    m.GetCellData().RemoveArray('region')   # remove previous 'region' array. Not standardised numbers
     cellarray = numpy_to_vtk(standard_regions)
-    cellarray.SetName('region')
+    cellarray.SetName('standard_regions')
     m.GetCellData().AddArray(cellarray)
-
     return m
