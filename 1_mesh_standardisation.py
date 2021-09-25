@@ -112,7 +112,7 @@ newarray.SetName("pv")
 surface.GetPointData().AddArray(newarray)
 m_ccliped = pointthreshold(surface, "pv", 0, 0)
 transfer_array(stdmesh_closed, m_ccliped, 'autolabels', 'autolabels')
-writevtk(m_ccliped, os.path.join(fileroot, filenameroot + '_crinkle_clipped.vtk'))
+writevtk(cleanpolydata(m_ccliped), os.path.join(fileroot, filenameroot + '_crinkle_clipped.vtk'))
 
 # MV clip, auto
 w = [0.95, 0.05, 0.0]
@@ -120,7 +120,7 @@ o_file = os.path.join(fileroot, filenameroot + '_clipped_mitral')
 surfaceclipped = find_mitral_cylinder_pvs(stdmesh, 'autolabels', o_file, 0.35, w, 0)
 if args.vis > 0:
     visualise_color(surfaceclipped, surface, 'Mitral Valve clip')
-writevtk(surfaceclipped, o_file + '.vtk')
+writevtk(cleanpolydata(surfaceclipped), o_file + '.vtk')
 
 if args.save == 0:  # remove intermediate results (centerlines, clippoints, etc.)
     if sys.platform == "linux" or sys.platform == "linux2":
