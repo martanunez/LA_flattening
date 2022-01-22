@@ -7,7 +7,6 @@ import sys
 from scipy import sparse
 import scipy.sparse.linalg as linalg_sp
 from scipy.sparse import vstack, hstack, coo_matrix, csc_matrix
-import csv
 
 ###     Input/Output    ###
 def readvtk(filename):
