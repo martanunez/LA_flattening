@@ -41,10 +41,12 @@ if not os.path.exists(args.meshfile_open_no_mitral):
 if os.path.exists(args.meshfile_closed):
     print('WARNING: Closed mesh already exists. Delete it and run again if you want to update it.')
 else:  # Fill holes
-    #os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
     if platform == "linux" or platform == "linux2":
         # os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
-        os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')
+        if (vtk.vtkVersion.GetVTKVersion() < '9.1.0'):
+            os.system('./FillSurfaceHoles_old -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')
+        else:
+            os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')
     elif platform == "win32":
         os.system('FillSurfaceHoles_Windows\FillSurfaceHoles.exe -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')   # default smooth cotangent (and edglen) fails when using the Windows binary
     else:
