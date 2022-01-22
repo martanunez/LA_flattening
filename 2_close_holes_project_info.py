@@ -43,7 +43,8 @@ if os.path.exists(args.meshfile_closed):
 else:  # Fill holes
     #os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
     if platform == "linux" or platform == "linux2":
-        os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
+        # os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed)
+        os.system('./FillSurfaceHoles -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')
     elif platform == "win32":
         os.system('FillSurfaceHoles_Windows\FillSurfaceHoles.exe -i ' + args.meshfile_open + ' -o ' + args.meshfile_closed + ' -smooth none')   # default smooth cotangent (and edglen) fails when using the Windows binary
     else:

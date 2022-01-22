@@ -28,6 +28,7 @@ import sys
 import os
 import argparse
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--meshfile', type=str, metavar='PATH', help='path to input mesh')
 parser.add_argument('--save_conts', type=bool, default=False, help='set to true to save mesh contours/contraints')
@@ -83,7 +84,7 @@ pv_centers[0, 3] = px_ref
 pv_centers[1, 3] = py_ref + left_carina_length
 # LAA
 laa_hole_center_x = px_ref - laa_disp_x
-laa_hole_center_y = py_ref + left_carina_length + left_carina_length * sep_lspv_laa  
+laa_hole_center_y = py_ref + left_carina_length + left_carina_length * sep_lspv_laa  # si lipv esta en (-.25, -.10)
 
 xhole_center = pv_centers[0, :]
 yhole_center = pv_centers[1, :]
@@ -106,7 +107,7 @@ coordinates = define_disk_template(rdisk, rhole_rspv, rhole_ripv, rhole_lipv, rh
 v1r_x, v1r_y, v1d_x, v1d_y, v1l_x, v1l_y, v2u_x, v2u_y, v2r_x, v2r_y, v2l_x, v2l_y, v3u_x, v3u_y, v3r_x, v3r_y, v3l_x, v3l_y, v4r_x, v4r_y, v4u_x, v4u_y, v4d_x, v4d_y, vlaad_x, vlaad_y, vlaau_x, vlaau_y, p5_x, p5_y, p6_x, p6_y, p7_x, p7_y, p8_x, p8_y = get_coords(coordinates)
 
 ##################    Open PVs and LAA holes (get 'to_be_flat_mesh'), identify contours and dividing paths in the to_be_flat mesh   ##################
-m_open = pointthreshold(mesh, 'hole', 0, 0)
+m_open = cleanpolydata(pointthreshold(mesh, 'hole', 0, 0))
 writevtk(m_open, to_be_flat_filename)
 # contours
 cont_rspv, cont_ripv, cont_lipv, cont_lspv, cont_mv, cont_laa = extract_LA_contours(m_open, args.meshfile, args.save_conts)
