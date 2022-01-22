@@ -109,10 +109,15 @@ python 4_flat_atria.py --meshfile data/mesh_clipped_c.vtk
 ## Dependencies
 The scripts in this repository were successfully run with:
 1. Ubuntu 16.04
+    - [Python](https://www.python.org/) 3.5.2
+    - [VMTK](http://www.vmtk.org/) 1.4
+    - [VTK](https://vtk.org/) 9.1.0
+
+2. Ubuntu 16.04
     - [Python](https://www.python.org/) 2.7.12
     - [VMTK](http://www.vmtk.org/) 1.4
     - [VTK](https://vtk.org/) 8.1.0
-2. Windows 8.1
+3. Windows 8.1
     - [Python](https://www.python.org/) 3.6.4
     - [VMTK](http://www.vmtk.org/) 1.4
     - [VTK](https://vtk.org/) 8.1.0
