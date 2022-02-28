@@ -483,7 +483,6 @@ def get_ordered_cont_ids_based_on_distance(mesh):
         cover.SetLines(polys)
     else:
         cover.SetPolys(polys)
-        cover.Update()
 
     # compute distance from point with id 0 to all the rest
     npoints = cover.GetNumberOfPoints()
